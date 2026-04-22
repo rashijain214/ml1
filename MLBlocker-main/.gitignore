@@ -1,0 +1,22 @@
+__pycache__/
+extension/node_modules
+extension/dist.crx
+extension/dist.pem
+extension/dist.zip
+extension/.DS_Store
+.DS_Store
+.github
+.git
+.github/workflows
+.vscode
+dataset/all_df_883_train.csv
+source/node_modules
+Python-3.7.17.tgz
+embedding.ipynb
+old_background.js
+MLBlocker_old.onnx
+extension firefox/node_modules
+extension/dist/_metadata/generated_indexed_rulesets/_ruleset1
+extension/dist_chrome/_metadata/generated_indexed_rulesets/_ruleset1
+extension firefox/dist_firefox/_metadata/generated_indexed_rulesets/_ruleset1
+extension chrome/node_modules
