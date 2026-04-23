@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""
+Create MLBlocker icon files
+"""
+
+from PIL import Image, ImageDraw, ImageFont
+import os
+
+def create_icon(size, output_path):
+    """Create a simple MLBlocker icon"""
+    # Create a square image with transparent background
+    img = Image.new('RGBA', (size, size), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    
+    # Colors
+    bg_color = (52, 152, 219)  # Blue background
+    shield_color = (231, 76, 60)  # Red shield
+    text_color = (255, 255, 255)  # White text
+    border_color = (44, 62, 80)  # Dark border
+    
+    # Draw background circle
+    margin = size // 10
+    draw.ellipse([margin, margin, size - margin, size - margin], 
+                 fill=bg_color, outline=border_color, width=size//20)
+    
+    # Draw shield shape in center
+    shield_margin = size // 4
+    shield_points = [
+        (size//2, shield_margin),  # Top point
+        (size - shield_margin, size//2 + size//8),  # Right top
+        (size - shield_margin, size - shield_margin + size//8),  # Right bottom
+        (size//2, size - shield_margin//2),  # Bottom point
+        (shield_margin, size - shield_margin + size//8),  # Left bottom
+        (shield_margin, size//2 + size//8),  # Left top
+    ]
+    draw.polygon(shield_points, fill=shield_color, outline=border_color, width=size//40)
+    
+    # Draw "ML" text
+    try:
+        font_size = size // 4
+        font = ImageFont.truetype("arial.ttf", font_size)
+    except:
+        font = ImageFont.load_default()
+    
+    text = "ML"
+    bbox = draw.textbbox((0, 0), text, font=font)
+    text_width = bbox[2] - bbox[0]
+    text_height = bbox[3] - bbox[1]
+    text_x = (size - text_width) // 2
+    text_y = (size - text_height) // 2 - size//12
+    
+    draw.text((text_x, text_y), text, fill=text_color, font=font)
+    
+    # Draw small "X" to indicate blocking
+    x_size = size // 8
+    x_margin = size // 3
+    draw.line([(size - x_margin, x_margin), (size - x_margin - x_size, x_margin + x_size)], 
+              fill=text_color, width=size//30)
+    draw.line([(size - x_margin - x_size, x_margin), (size - x_margin, x_margin + x_size)], 
+              fill=text_color, width=size//30)
+    
+    # Save the image
+    img.save(output_path)
+    print(f"Created {output_path}")
+
+def main():
+    """Create all icon sizes"""
+    sizes = [16, 32, 48, 128]
+    
+    for size in sizes:
+        output_path = f"icon{size}.png"
+        create_icon(size, output_path)
+    
+    # Also create a general icon.png (128x128)
+    create_icon(128, "icon.png")
+    
+    print("All icon files created successfully!")
+
+if __name__ == "__main__":
+    main()
